@@ -12,5 +12,5 @@ setup (name = 'enigma2-plugin-extensions-oroscopoitalia',
        packages = [pkg],
        package_dir = {pkg: 'plugin'},
        package_data={pkg: ['icons/*.png']},
-       data_files=[('', ['backg.png', 'oroscopoitalia.png', 'oroscopoitalia.cfg'])]
+       data_files=[('', ['plugin/backg.png', 'plugin/oroscopoitalia.png', 'plugin/oroscopoitalia.cfg'])]
       )
