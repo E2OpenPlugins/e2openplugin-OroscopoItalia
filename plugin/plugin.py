@@ -29,9 +29,12 @@ from Components.Pixmap import Pixmap
 from Tools.Directories import fileExists
 from Tools.LoadPixmap import LoadPixmap
 
-from urllib2 import Request, urlopen, URLError, HTTPError
+from six.moves.urllib.request import Request, urlopen
 from xml.dom import minidom, Node
 from enigma import eTimer
+
+from six.moves.urllib.error import URLError, HTTPError
+
 
 OROSCOPOITALIA_ABOUT_TXT = "Oroscopo Italia v 0.1\n\nAuthor: meo\nGraphics: Army\nRss Oroscopo: www.horoscopofree.com\n\n\nNota dell'autore: Ho fatto questo plugin su richiesta ma secondo me l'oroscopo e' una gran pirlata!"
 
