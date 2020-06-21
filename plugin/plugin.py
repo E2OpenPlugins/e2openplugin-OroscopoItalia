@@ -49,7 +49,6 @@ class oroscopoMain(Screen):
 		
 	</screen>"""
 
-
 	def __init__(self, session):
 		Screen.__init__(self, session)
 
@@ -57,9 +56,7 @@ class oroscopoMain(Screen):
 		self["lab2"] = Label("")
 		self["lab3"] = Pixmap()
 		self["lab4"] = Label("")
-		
-		
-		
+
 		self["actions"] = ActionMap(["WizardActions", "ColorActions"],
 		{
 			"red": self.key_red,
@@ -67,7 +64,7 @@ class oroscopoMain(Screen):
 			"back": self.close,
 			"ok": self.close
 		})
-		
+
 		self.activityTimer = eTimer()
 		self.activityTimer.timeout.get().append(self.startConnection)
 		self.onShow.append(self.startShow)
@@ -88,61 +85,57 @@ class oroscopoMain(Screen):
 		myurl = "http://www.horoscopofree.com/it/misc/partnership/Oroscopo.xml"
 		req = Request(myurl)
 		try:
-    			handler = urlopen(req)
+			handler = urlopen(req)
 		except HTTPError as e:
-    			maintext = "Error: connection failed !"
+			maintext = "Error: connection failed !"
 		except URLError as e:
-    			maintext = "Error: Page not available !"
+			maintext = "Error: Page not available !"
 		else:
 			xml_response = handler.read()
 			#xml_response = handler.read().decode('iso-8859-1').encode('utf-8')
 			xml_response = self.checkXmlSanity(xml_response)
-   			dom = minidom.parseString(xml_response)
-    			handler.close()
+			dom = minidom.parseString(xml_response)
+			handler.close()
 			
 			maintext = ""
 			if (dom):
 
-    				zsign_items = ('title', 'description', 'pubDate')
-    				zodiac = []
+				zsign_items = ('title', 'description', 'pubDate')
+				zodiac = []
 
 				for zsign in dom.getElementsByTagName('item'):
-        				tmp_zsign = {}
-        				for tag in zsign_items:
-            					tmp_zsign[tag] = zsign.getElementsByTagName(tag)[0].firstChild.nodeValue
-        				zodiac.append(tmp_zsign)
-				
+					tmp_zsign = {}
+					for tag in zsign_items:
+						tmp_zsign[tag] = zsign.getElementsByTagName(tag)[0].firstChild.nodeValue
+					zodiac.append(tmp_zsign)
+
 				dom.unlink()
-				
+
 				idx = self.get_Idx()
-				
+
 				mytime =  str(zodiac[idx]['pubDate'])
 				parts = mytime.strip().split(" ")
 				mytime = parts[1] + " " + parts[2] + " " + parts[3]
-				
+
 				maintext = "Oroscopo di oggi " + mytime
 				title = str(zodiac[idx]['title'])
 				self["lab2"].setText(title)
-				
+
 				icon = title.lower()
 				icon = pluginpath + "/" + "icons/" + icon[0:3] + ".png"
 				png = LoadPixmap(icon)
 				self["lab3"].instance.setPixmap(png)
-				
+
 				description = str(zodiac[idx]['description'])
 				pos = description.find('<a')
 				description = description[0:pos]
-				
+
 				self["lab4"].setText(description)
-				
 
 			else:
 				maintext = "Error getting XML document!"
-		
-		
-		self["lab1"].setText(maintext)
-			
 
+		self["lab1"].setText(maintext)
 
 # Make text safe for xml parser (Google old xml format without the character set declaration)
 	def checkXmlSanity(self, content):
@@ -164,7 +157,6 @@ class oroscopoMain(Screen):
 			f.close()
 		return idx
 
-		
 	def delTimer(self):
 		del self.activityTimer
 
@@ -174,8 +166,6 @@ class oroscopoMain(Screen):
 		
 	def key_red(self):
 		self.session.openWithCallback(self.updateInfo, oroscopoSelectsign)
-
-
 
 class oroscopoSelectsign(Screen):
 	skin = """
@@ -193,10 +183,10 @@ class oroscopoSelectsign(Screen):
 
 		self.list = [("ARIETE", 0), ("TORO", 1), ("GEMELLI", 2), ("CANCRO", 3), ("LEONE", 4), ("VERGINE", 5),
 			("BILANCIA", 6), ("SCORPIONE", 7), ("SAGITTARIO", 8), ("CAPRICORNO", 9), ("ACQUARIO", 10), ("PESCI", 11)]
-				
+
 		self["list"] = List(self.list)
 		self["lab1"] = Label("Ok per confermare")
-		
+
 		self["actions"] = ActionMap(["WizardActions", "ColorActions"],
 		{
 			"back": self.close,
@@ -216,10 +206,8 @@ class oroscopoSelectsign(Screen):
 			out.write(str(sign[1]))
 		self.close()
 
-
 def main(session, **kwargs):
 	session.open(oroscopoMain)	
-
 
 def Plugins(path,**kwargs):
 	global pluginpath
