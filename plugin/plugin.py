@@ -86,9 +86,9 @@ class oroscopoMain(Screen):
 		req = Request(myurl)
 		try:
     			handler = urlopen(req)
-		except HTTPError, e:
+		except HTTPError as e:
     			maintext = "Error: connection failed !"
-		except URLError, e:
+		except URLError as e:
     			maintext = "Error: Page not available !"
 		else:
 			xml_response = handler.read()
@@ -155,7 +155,7 @@ class oroscopoMain(Screen):
 		idx = 0
 		cfgfile = pluginpath + "/" + "oroscopoitalia.cfg"
 		if fileExists(cfgfile):
-			f = open(cfgfile,'r')
+			f = open(cfgfile, 'r')
 			line = f.readline()
 			idx = int(line.strip())
 			f.close()
@@ -188,8 +188,8 @@ class oroscopoSelectsign(Screen):
 	def __init__(self, session):
 		Screen.__init__(self, session)
 
-		self.list = [("ARIETE", 0),("TORO", 1),("GEMELLI", 2),("CANCRO", 3),("LEONE", 4),("VERGINE", 5),
-			("BILANCIA", 6),("SCORPIONE", 7),("SAGITTARIO", 8),("CAPRICORNO", 9),("ACQUARIO", 10),("PESCI", 11)]
+		self.list = [("ARIETE", 0), ("TORO", 1), ("GEMELLI", 2), ("CANCRO", 3), ("LEONE", 4), ("VERGINE", 5),
+			("BILANCIA", 6), ("SCORPIONE", 7), ("SAGITTARIO", 8), ("CAPRICORNO", 9), ("ACQUARIO", 10), ("PESCI", 11)]
 				
 		self["list"] = List(self.list)
 		self["lab1"] = Label("Ok per confermare")
