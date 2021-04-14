@@ -35,6 +35,7 @@ from enigma import eTimer
 
 OROSCOPOITALIA_ABOUT_TXT = "Oroscopo Italia v 0.1\n\nAuthor: meo\nGraphics: Army\nRss Oroscopo: www.horoscopofree.com\n\n\nNota dell'autore: Ho fatto questo plugin su richiesta ma secondo me l'oroscopo e' una gran pirlata!"
 
+
 class oroscopoMain(Screen):
 	skin = """
 	<screen position="center,center" size="700,550" flags="wfNoBorder">
@@ -46,7 +47,6 @@ class oroscopoMain(Screen):
 		
 	</screen>"""
 
-
 	def __init__(self, session):
 		Screen.__init__(self, session)
 
@@ -54,8 +54,6 @@ class oroscopoMain(Screen):
 		self["lab2"] = Label("")
 		self["lab3"] = Pixmap()
 		self["lab4"] = Label("")
-		
-		
 		
 		self["actions"] = ActionMap(["WizardActions", "ColorActions"],
 		{
@@ -72,6 +70,8 @@ class oroscopoMain(Screen):
 
 
 #We use a timer to show the Window in the meanwhile we are connecting to Server
+
+
 	def startShow(self):
 		self["lab1"].setText("Attendere prego, connessione al server in corso...")
 		self.activityTimer.start(10)
@@ -132,16 +132,15 @@ class oroscopoMain(Screen):
 				
 				self["lab4"].setText(description)
 				
-
 			else:
 				maintext = "Error getting XML document!"
-		
 		
 		self["lab1"].setText(maintext)
 			
 
-
 # Make text safe for xml parser (Google old xml format without the character set declaration)
+
+
 	def checkXmlSanity(self, content):
 		content = content.replace('à', 'a')
 		content = content.replace('è', 'e')
@@ -161,7 +160,6 @@ class oroscopoMain(Screen):
 			f.close()
 		return idx
 
-		
 	def delTimer(self):
 		del self.activityTimer
 
@@ -173,7 +171,6 @@ class oroscopoMain(Screen):
 		self.session.openWithCallback(self.updateInfo, oroscopoSelectsign)
 
 
-
 class oroscopoSelectsign(Screen):
 	skin = """
 	<screen position="center,center" size="700,550" flags="wfNoBorder">
@@ -183,7 +180,6 @@ class oroscopoSelectsign(Screen):
 		</widget>
 		<widget name="lab1" position="50,500" halign="center" size="600,30" zPosition="1" font="Regular;24" valign="top" foregroundColor="#639ACB" transparent="1" />
 	</screen>"""
-
 
 	def __init__(self, session):
 		Screen.__init__(self, session)
