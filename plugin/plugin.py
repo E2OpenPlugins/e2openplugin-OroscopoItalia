@@ -221,4 +221,4 @@ def main(session, **kwargs):
 def Plugins(path,**kwargs):
 	global pluginpath
 	pluginpath = path
-	return PluginDescriptor(name="Oroscopo Italia", description="Oroscopo di oggi", icon="oroscopoitalia.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc=main)
+	return PluginDescriptor(name="Oroscopo Italia", description="Oroscopo di oggi", icon="oroscopoitalia.png", where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main)
