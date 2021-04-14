@@ -1,14 +1,14 @@
 # -*- coding: iso-8859-1 -*-
 
 ##############################################################################
-#                          <<< Oroscopo Italia >>>                           
-#                                                                            
-#                     (2011) meo <lupomeo@hotmail.com>          
-#                                                                            
-#  This file is open source software; you can redistribute it and/or modify  
-#     it under the terms of the GNU General Public License version 2 as      
-#               published by the Free Software Foundation.                   
-#                                                                            
+#                          <<< Oroscopo Italia >>>
+#
+#                     (2011) meo <lupomeo@hotmail.com>
+#
+#  This file is open source software; you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License version 2 as
+#               published by the Free Software Foundation.
+#
 ##############################################################################
 
 #
@@ -35,6 +35,7 @@ from enigma import eTimer
 
 OROSCOPOITALIA_ABOUT_TXT = "Oroscopo Italia v 0.1\n\nAuthor: meo\nGraphics: Army\nRss Oroscopo: www.horoscopofree.com\n\n\nNota dell'autore: Ho fatto questo plugin su richiesta ma secondo me l'oroscopo e' una gran pirlata!"
 
+
 class oroscopoMain(Screen):
 	skin = """
 	<screen position="center,center" size="700,550" flags="wfNoBorder">
@@ -43,9 +44,8 @@ class oroscopoMain(Screen):
 		<widget name="lab2" position="10,140" halign="center" size="680,30" zPosition="1" font="Regular;26" valign="top" transparent="1" />
 		<widget name="lab3" position="319,180" size="62,62" zPosition="1" />
 		<widget name="lab4" position="50,280" halign="center" size="600,270" zPosition="1" font="Regular;22" valign="top" transparent="1" />
-		
-	</screen>"""
 
+	</screen>"""
 
 	def __init__(self, session):
 		Screen.__init__(self, session)
@@ -54,9 +54,7 @@ class oroscopoMain(Screen):
 		self["lab2"] = Label("")
 		self["lab3"] = Pixmap()
 		self["lab4"] = Label("")
-		
-		
-		
+
 		self["actions"] = ActionMap(["WizardActions", "ColorActions"],
 		{
 			"red": self.key_red,
@@ -64,7 +62,7 @@ class oroscopoMain(Screen):
 			"back": self.close,
 			"ok": self.close
 		})
-		
+
 		self.activityTimer = eTimer()
 		self.activityTimer.timeout.get().append(self.startConnection)
 		self.onShow.append(self.startShow)
@@ -72,10 +70,12 @@ class oroscopoMain(Screen):
 
 
 #We use a timer to show the Window in the meanwhile we are connecting to Server
+
+
 	def startShow(self):
 		self["lab1"].setText("Attendere prego, connessione al server in corso...")
 		self.activityTimer.start(10)
-		
+
 	def startConnection(self):
 		self.activityTimer.stop()
 		self.updateInfo()
@@ -96,7 +96,7 @@ class oroscopoMain(Screen):
 			xml_response = self.checkXmlSanity(xml_response)
    			dom = minidom.parseString(xml_response)
     			handler.close()
-			
+
 			maintext = ""
 			if (dom):
 
@@ -108,40 +108,39 @@ class oroscopoMain(Screen):
         				for tag in zsign_items:
             					tmp_zsign[tag] = zsign.getElementsByTagName(tag)[0].firstChild.nodeValue
         				zodiac.append(tmp_zsign)
-				
+
 				dom.unlink()
-				
+
 				idx = self.get_Idx()
-				
-				mytime =  str(zodiac[idx]['pubDate'])
+
+				mytime = str(zodiac[idx]['pubDate'])
 				parts = mytime.strip().split(" ")
 				mytime = parts[1] + " " + parts[2] + " " + parts[3]
-				
+
 				maintext = "Oroscopo di oggi " + mytime
 				title = str(zodiac[idx]['title'])
 				self["lab2"].setText(title)
-				
+
 				icon = title.lower()
 				icon = pluginpath + "/" + "icons/" + icon[0:3] + ".png"
 				png = LoadPixmap(icon)
 				self["lab3"].instance.setPixmap(png)
-				
+
 				description = str(zodiac[idx]['description'])
 				pos = description.find('<a')
 				description = description[0:pos]
-				
+
 				self["lab4"].setText(description)
-				
 
 			else:
 				maintext = "Error getting XML document!"
-		
-		
+
 		self["lab1"].setText(maintext)
-			
 
 
 # Make text safe for xml parser (Google old xml format without the character set declaration)
+
+
 	def checkXmlSanity(self, content):
 		content = content.replace('à', 'a')
 		content = content.replace('è', 'e')
@@ -155,23 +154,21 @@ class oroscopoMain(Screen):
 		idx = 0
 		cfgfile = pluginpath + "/" + "oroscopoitalia.cfg"
 		if fileExists(cfgfile):
-			f = open(cfgfile,'r')
+			f = open(cfgfile, 'r')
 			line = f.readline()
 			idx = int(line.strip())
 			f.close()
 		return idx
 
-		
 	def delTimer(self):
 		del self.activityTimer
 
 	def key_green(self):
 		box = self.session.open(MessageBox, OROSCOPOITALIA_ABOUT_TXT, MessageBox.TYPE_INFO)
 		box.setTitle(_("Informazioni"))
-		
+
 	def key_red(self):
 		self.session.openWithCallback(self.updateInfo, oroscopoSelectsign)
-
 
 
 class oroscopoSelectsign(Screen):
@@ -184,16 +181,15 @@ class oroscopoSelectsign(Screen):
 		<widget name="lab1" position="50,500" halign="center" size="600,30" zPosition="1" font="Regular;24" valign="top" foregroundColor="#639ACB" transparent="1" />
 	</screen>"""
 
-
 	def __init__(self, session):
 		Screen.__init__(self, session)
 
-		self.list = [("ARIETE", 0),("TORO", 1),("GEMELLI", 2),("CANCRO", 3),("LEONE", 4),("VERGINE", 5),
-			("BILANCIA", 6),("SCORPIONE", 7),("SAGITTARIO", 8),("CAPRICORNO", 9),("ACQUARIO", 10),("PESCI", 11)]
-				
+		self.list = [("ARIETE", 0), ("TORO", 1), ("GEMELLI", 2), ("CANCRO", 3), ("LEONE", 4), ("VERGINE", 5),
+			("BILANCIA", 6), ("SCORPIONE", 7), ("SAGITTARIO", 8), ("CAPRICORNO", 9), ("ACQUARIO", 10), ("PESCI", 11)]
+
 		self["list"] = List(self.list)
 		self["lab1"] = Label("Ok per confermare")
-		
+
 		self["actions"] = ActionMap(["WizardActions", "ColorActions"],
 		{
 			"back": self.close,
@@ -215,10 +211,10 @@ class oroscopoSelectsign(Screen):
 
 
 def main(session, **kwargs):
-	session.open(oroscopoMain)	
+	session.open(oroscopoMain)
 
 
-def Plugins(path,**kwargs):
+def Plugins(path, **kwargs):
 	global pluginpath
 	pluginpath = path
-	return PluginDescriptor(name="Oroscopo Italia", description="Oroscopo di oggi", icon="oroscopoitalia.png", where = PluginDescriptor.WHERE_PLUGINMENU, fnc=main)
+	return PluginDescriptor(name="Oroscopo Italia", description="Oroscopo di oggi", icon="oroscopoitalia.png", where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main)
