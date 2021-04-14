@@ -155,7 +155,7 @@ class oroscopoMain(Screen):
 		idx = 0
 		cfgfile = pluginpath + "/" + "oroscopoitalia.cfg"
 		if fileExists(cfgfile):
-			f = open(cfgfile,'r')
+			f = open(cfgfile, 'r')
 			line = f.readline()
 			idx = int(line.strip())
 			f.close()
@@ -188,8 +188,8 @@ class oroscopoSelectsign(Screen):
 	def __init__(self, session):
 		Screen.__init__(self, session)
 
-		self.list = [("ARIETE", 0),("TORO", 1),("GEMELLI", 2),("CANCRO", 3),("LEONE", 4),("VERGINE", 5),
-			("BILANCIA", 6),("SCORPIONE", 7),("SAGITTARIO", 8),("CAPRICORNO", 9),("ACQUARIO", 10),("PESCI", 11)]
+		self.list = [("ARIETE", 0), ("TORO", 1), ("GEMELLI", 2), ("CANCRO", 3), ("LEONE", 4), ("VERGINE", 5),
+			("BILANCIA", 6), ("SCORPIONE", 7), ("SAGITTARIO", 8), ("CAPRICORNO", 9), ("ACQUARIO", 10), ("PESCI", 11)]
 				
 		self["list"] = List(self.list)
 		self["lab1"] = Label("Ok per confermare")
@@ -218,7 +218,7 @@ def main(session, **kwargs):
 	session.open(oroscopoMain)	
 
 
-def Plugins(path,**kwargs):
+def Plugins(path, **kwargs):
 	global pluginpath
 	pluginpath = path
 	return PluginDescriptor(name="Oroscopo Italia", description="Oroscopo di oggi", icon="oroscopoitalia.png", where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main)
