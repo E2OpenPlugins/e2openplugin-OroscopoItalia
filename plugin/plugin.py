@@ -113,7 +113,7 @@ class oroscopoMain(Screen):
 				
 				idx = self.get_Idx()
 				
-				mytime =  str(zodiac[idx]['pubDate'])
+				mytime = str(zodiac[idx]['pubDate'])
 				parts = mytime.strip().split(" ")
 				mytime = parts[1] + " " + parts[2] + " " + parts[3]
 				
