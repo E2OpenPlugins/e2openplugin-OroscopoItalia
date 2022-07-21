@@ -93,7 +93,7 @@ class oroscopoMain(Screen):
 		else:
 			xml_response = handler.read()
 			#xml_response = handler.read().decode('iso-8859-1').encode('utf-8')
-			xml_response = self.checkXmlSanity(xml_response)
+			xml_response = self.checkXmlSanity(xml_response.decode('utf-8'))
 			dom = minidom.parseString(xml_response)
 			handler.close()
 			
